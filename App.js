@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'react-native';
+import { MenuScreen } from './screens/MenuScreen';
+import { CartScreen } from './screens/CartScreen';
+import { PaymentScreen } from './screens/PaymentScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { CartProvider } from './contexts/CartContext';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Menu">
+          <Stack.Screen
+            name="Menu"
+            component={MenuScreen}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <Button
+                  onPress={() => navigation.navigate('Cart')}
+                  title={'Cart'}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen name="Payment" component={PaymentScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
