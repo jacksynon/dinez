@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Create a context for the cart
 const CartContext = createContext({
@@ -27,8 +28,35 @@ export const CartProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    // Load cart from AsyncStorage when the component mounts
+    loadCart();
+  }, []);
+
+  useEffect(() => {
+    // Update total whenever items change
     calculateTotal();
+    // Save cart to AsyncStorage whenever it changes
+    saveCart();
   }, [items]);
+
+  const loadCart = async () => {
+    try {
+      const savedCart = await AsyncStorage.getItem('cart');
+      if (savedCart) {
+        setItems(JSON.parse(savedCart));
+      }
+    } catch (error) {
+      console.error('Failed to load cart:', error);
+    }
+  };
+
+  const saveCart = async () => {
+    try {
+      await AsyncStorage.setItem('cart', JSON.stringify(items));
+    } catch (error) {
+      console.error('Failed to save cart:', error);
+    }
+  };
 
   // Function to add an item to the cart
   const addItem = (item, quantity) => {
