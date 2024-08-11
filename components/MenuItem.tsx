@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCart } from '../contexts/CartContext';
 
-export const MenuItem = ({ item }) => {
+export const MenuItem = ({ item, navigation }) => {
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
 
@@ -22,67 +22,49 @@ export const MenuItem = ({ item }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.details}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('MenuItemDetails', { item })}
+    >
+      <View style={styles.container}>
+        <View style={styles.details}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+          <Text style={styles.description}>{item.description}</Text>
         </View>
-        <Text style={styles.description}>{item.description}</Text>
-        <View style={styles.quantityContainer}>
-          <TouchableOpacity
-            onPress={decreaseQuantity}
-            style={styles.quantityButton}
-          >
-            <Text style={styles.quantityButtonText}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.quantity}>{quantity}</Text>
-          <TouchableOpacity
-            onPress={increaseQuantity}
-            style={styles.quantityButton}
-          >
-            <Text style={styles.quantityButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={handleAddToCart} style={styles.addButton}>
-          <Text style={styles.addButtonText}>Add to Cart</Text>
-        </TouchableOpacity>
+        <Image source={{ uri: item.image }} style={styles.image} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    padding: 10,
+    paddingVertical: 10,
+    marginHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
   image: {
     width: 100,
     height: 100,
-    marginRight: 10,
+    marginLeft: 10,
     borderRadius: 5,
   },
   details: {
     flex: 1,
   },
   name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
-  },
-  price: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5,
+  },
+  description: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 10,
+  },
+  price: {
+    fontSize: 14,
   },
   quantityContainer: {
     flexDirection: 'row',
@@ -103,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   addButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#FF9F0D',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

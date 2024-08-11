@@ -4,16 +4,20 @@ import {
   FlatList,
   TextInput,
   useWindowDimensions,
-  Button,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import { MenuItem } from '../components/MenuItem';
 import type { MenuItemType } from '../interfaces';
+import { useCart } from '../contexts/CartContext';
 
 export function MenuScreen({ navigation }) {
   const [menuItems, setMenuItems] = useState([] as MenuItemType[]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const { totalItemQuantity } = useCart();
 
   const { height, width } = useWindowDimensions();
 
@@ -86,20 +90,48 @@ export function MenuScreen({ navigation }) {
           height: height,
         }}
       >
-        {/* <TextInput
-        placeholder="Search menu..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      /> */}
+        <TextInput
+          placeholder="Search menu..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={{
+            backgroundColor: '#f2f2f2',
+            padding: 15,
+            margin: 10,
+            borderRadius: 45,
+          }}
+        />
+        {filteredItems.length === 0 && (
+          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+            No items found
+          </Text>
+        )}
         <FlatList
           data={filteredItems}
-          renderItem={({ item }) => <MenuItem item={item} />}
+          renderItem={({ item }) => (
+            <MenuItem item={item} navigation={navigation} />
+          )}
           keyExtractor={(item) => item.id.toString()}
         />
-        <Button
-          title="Go to Cart"
-          onPress={() => navigation.navigate('Cart')}
-        />
+        {
+          // only show the "View Cart" button if there are items in the cart
+          totalItemQuantity > 0 && (
+            <TouchableOpacity
+              style={styles.goToCart}
+              onPress={() => navigation.navigate('Cart')}
+            >
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                }}
+              >
+                View Cart ({totalItemQuantity})
+              </Text>
+            </TouchableOpacity>
+          )
+        }
       </View>
     </SafeAreaView>
   );
@@ -110,5 +142,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  goToCart: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginHorizontal: 16,
+    backgroundColor: '#FF9F0D',
+    color: 'white',
+    height: 50,
+    borderRadius: 5,
+    alignItems: 'center',
   },
 });

@@ -6,8 +6,6 @@ import { CartItem } from '../components/CartItem';
 export function CartScreen({ navigation }) {
   const { items, total, removeItem, updateItemQuantity } = useCart();
 
-  console.log(items);
-
   return (
     <View>
       <FlatList
