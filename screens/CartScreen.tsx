@@ -6,6 +6,8 @@ import { CartItem } from '../components/CartItem';
 export function CartScreen({ navigation }) {
   const { items, total, removeItem, updateItemQuantity } = useCart();
 
+  console.log(items);
+
   return (
     <View>
       <FlatList
@@ -13,13 +15,18 @@ export function CartScreen({ navigation }) {
         renderItem={({ item }) => (
           <CartItem
             item={item}
-            onRemove={() => removeItem(item.id)}
+            onRemove={() => removeItem(item.id, item.selectedOptions)}
             onUpdateQuantity={(newQuantity) =>
-              updateItemQuantity(item.id, newQuantity)
+              updateItemQuantity(item.id, newQuantity, item.selectedOptions)
             }
           />
         )}
-        keyExtractor={(item) => item.id}
+        // Add a key extractor to prevent the "Each child in a list should have a unique 'key' prop" warning, use the item id and the selected options to create a hash to use as the key
+        keyExtractor={(item) =>
+          `${item.id}-${item.selectedOptions.additional.join(
+            '-'
+          )}-${item.selectedOptions.removable.join('-')}`
+        }
       />
       <Text>Total: ${total.toFixed(2)}</Text>
       <Button

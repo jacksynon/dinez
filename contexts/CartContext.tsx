@@ -12,9 +12,9 @@ const CartContext = createContext({
   items: [],
   total: 0,
   totalItemQuantity: 0,
-  addItem: (item, quantity) => {},
-  updateItemQuantity: (itemId, quantity) => {},
-  removeItem: (itemId) => {},
+  addItem: (item, quantity, selectedOptions) => {},
+  updateItemQuantity: (itemId, quantity, selectedOptions) => {},
+  removeItem: (itemId, selectedOptions) => {},
 });
 
 // Custom hook to use the CartContext
@@ -59,32 +59,68 @@ export const CartProvider = ({ children }) => {
   };
 
   // Function to add an item to the cart
-  const addItem = (item, quantity) => {
-    // Check if the item is already in the cart
-    const existingItem = items.find((i) => i.id === item.id);
+  const addItem = (item, quantity, selectedOptions) => {
+    // Calculate the additional options cost
+    const additionalCost = selectedOptions.additional.reduce(
+      (total, option) => {
+        const optionDetail = item.options.additionalIngredients.find(
+          (ingredient) => ingredient.name === option
+        );
+        return total + (optionDetail ? optionDetail.price : 0);
+      },
+      0
+    );
+
+    // Calculate the total item price with options
+    const totalItemPrice = item.price + additionalCost;
+
+    // Check if an item with the same options is already in the cart
+    const existingItem = items.find(
+      (i) =>
+        i.id === item.id &&
+        JSON.stringify(i.selectedOptions) === JSON.stringify(selectedOptions)
+    );
+
     if (existingItem) {
       // If it is, update the quantity
-      updateItemQuantity(item.id, existingItem.quantity + quantity);
+      updateItemQuantity(
+        existingItem.id,
+        existingItem.quantity + quantity,
+        selectedOptions
+      );
     } else {
-      // If not, add it to the cart
-      item = { ...item, quantity };
-      setItems((currentItems) => [...currentItems, item]);
+      // If not, add it to the cart with options and the updated price
+      const newItem = {
+        ...item,
+        quantity,
+        selectedOptions,
+        price: totalItemPrice,
+      };
+      setItems((currentItems) => [...currentItems, newItem]);
     }
   };
 
-  // Function to update the quantity of an item in the cart
-  const updateItemQuantity = (itemId, newQuantity) => {
+  // Function to update the item quantity in the cart
+  const updateItemQuantity = (itemId, newQuantity, selectedOptions) => {
     setItems((currentItems) =>
       currentItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
+        item.id === itemId &&
+        JSON.stringify(item.selectedOptions) === JSON.stringify(selectedOptions)
+          ? { ...item, quantity: newQuantity }
+          : item
       )
     );
   };
 
-  // Function to remove an item from the cart
-  const removeItem = (itemId) => {
+  // Function to remove an item from the cart, checking for options as well
+  const removeItem = (itemId, selectedOptions) => {
     setItems((currentItems) =>
-      currentItems.filter((item) => item.id !== itemId)
+      currentItems.filter(
+        (item) =>
+          item.id !== itemId ||
+          JSON.stringify(item.selectedOptions) !==
+            JSON.stringify(selectedOptions)
+      )
     );
   };
 
