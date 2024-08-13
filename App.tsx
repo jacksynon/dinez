@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Pressable } from 'react-native';
 import { MenuScreen } from './screens/MenuScreen';
 import { CartScreen } from './screens/CartScreen';
 import { PaymentScreen } from './screens/PaymentScreen';
@@ -8,8 +8,9 @@ import { CartProvider } from './contexts/CartContext';
 import CartButton from './components/CartButton';
 import MenuItemDetailsScreen from './screens/MenuItemDetailsScreen';
 import CloseIcon from './assets/CloseIcon';
+import { RootStackParamList } from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -40,14 +41,15 @@ export default function App() {
               <Stack.Screen
                 name="MenuItemDetails"
                 component={MenuItemDetailsScreen}
-                options={({ route }) => ({
-                  title: route.params.item.name,
+                options={({ navigation }) => ({
                   headerShown: false,
                   headerRight: () => (
-                    <CloseIcon
-                      onPress={() => navigation.goBack()}
+                    <Pressable
                       style={{ padding: 10 }}
-                    />
+                      onPress={() => navigation.goBack()}
+                    >
+                      <CloseIcon />
+                    </Pressable>
                   ),
                 })}
               />
