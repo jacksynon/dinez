@@ -14,8 +14,19 @@ import Quantity from '../components/Quantity';
 import CloseIcon from '../assets/CloseIcon';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import MenuItemOption from '../components/MenuItemOption';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../types';
+import type { MenuItemType } from '../types/menuItemTypes';
 
-const MenuItemDetailsScreen = ({ navigation, route }) => {
+interface MenuItemDetailsScreenProps {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'MenuItemDetails'>;
+  route: { params: { item: MenuItemType } };
+}
+
+const MenuItemDetailsScreen = ({
+  navigation,
+  route,
+}: MenuItemDetailsScreenProps) => {
   const { item } = route.params;
   const { addItem } = useCart();
 
@@ -26,8 +37,8 @@ const MenuItemDetailsScreen = ({ navigation, route }) => {
 
   // State to keep track of selected options
   const [selectedOptions, setSelectedOptions] = useState({
-    removable: [],
-    additional: [],
+    removable: [] as string[],
+    additional: [] as string[],
   });
 
   // Increase quantity to add to cart by 1
@@ -43,7 +54,7 @@ const MenuItemDetailsScreen = ({ navigation, route }) => {
   };
 
   // Toggle option selection
-  const toggleOption = (type, option) => {
+  const toggleOption = (type: 'removable' | 'additional', option: string) => {
     setSelectedOptions((prevState) => {
       const options = prevState[type].includes(option)
         ? prevState[type].filter((opt) => opt !== option)
@@ -56,7 +67,7 @@ const MenuItemDetailsScreen = ({ navigation, route }) => {
   const calculateTotalPrice = () => {
     const additionalCost = selectedOptions.additional.reduce(
       (total, option) => {
-        const itemOption = item.options.additionalIngredients.find(
+        const itemOption = item.options?.additionalIngredients?.find(
           (ingredient) => ingredient.name === option
         );
         return total + (itemOption ? itemOption.price : 0);
@@ -87,7 +98,7 @@ const MenuItemDetailsScreen = ({ navigation, route }) => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Additions:</Text>
         {/* Additional Ingredients */}
-        {item.options.additionalIngredients &&
+        {item.options?.additionalIngredients &&
           item.options.additionalIngredients.map((ingredient) => (
             <MenuItemOption
               key={ingredient.name}
@@ -97,10 +108,10 @@ const MenuItemDetailsScreen = ({ navigation, route }) => {
           ))}
       </View>
 
-      {item.options.removableIngredients && (
+      {item.options?.removableIngredients && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Remove:</Text>
-          {item.options.removableIngredients.map((ingredient: any) => (
+          {item.options.removableIngredients.map((ingredient) => (
             <Pressable
               key={ingredient}
               style={styles.optionContainer}

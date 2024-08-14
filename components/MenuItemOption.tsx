@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
-const MenuItemOption = ({ ingredient, toggleOption }) => {
+interface MenuItemOptionProps {
+  ingredient: { name: string; price: number };
+  toggleOption: (type: 'removable' | 'additional', option: string) => void;
+}
+
+const MenuItemOption = ({ ingredient, toggleOption }: MenuItemOptionProps) => {
   const [checkboxState, setCheckboxState] = useState(false);
 
   const handlePress = () => {

@@ -1,7 +1,18 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { CartItemType } from '../types/cartItemTypes';
 
-export const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
+interface CartItemProps {
+  item: CartItemType;
+  onRemove: () => void;
+  onUpdateQuantity: (quantity: number) => void;
+}
+
+export const CartItem = ({
+  item,
+  onRemove,
+  onUpdateQuantity,
+}: CartItemProps) => {
   const increaseQuantity = () => {
     onUpdateQuantity(item.quantity + 1);
   };
@@ -25,9 +36,9 @@ export const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
           ? item.selectedOptions.additional.map((option) => (
               <Text key={option} style={styles.option}>
                 Add {option} (+$
-                {item.options.additionalIngredients
-                  .find((i) => i.name === option)
-                  .price.toFixed(2)}
+                {item.options?.additionalIngredients
+                  ?.find((i) => i.name === option)
+                  ?.price.toFixed(2)}
                 )
               </Text>
             ))

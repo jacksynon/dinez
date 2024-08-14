@@ -4,28 +4,53 @@ import React, {
   useState,
   useEffect,
   useMemo,
+  ReactNode,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CartItemType, SelectedOptions } from '../types/cartItemTypes';
+import { MenuItemType } from '../types/menuItemTypes';
+
+type CartContextType = {
+  items: CartItemType[];
+  total: number;
+  totalItemQuantity: number;
+  addItem: (
+    item: MenuItemType,
+    quantity: number,
+    selectedOptions: SelectedOptions
+  ) => void;
+  updateItemQuantity: (
+    itemId: number,
+    quantity: number,
+    selectedOptions: SelectedOptions
+  ) => void;
+  removeItem: (itemId: number, selectedOptions: SelectedOptions) => void;
+};
 
 // Create a context for the cart
-const CartContext = createContext({
+const CartContext = createContext<CartContextType>({
   items: [],
   total: 0,
   totalItemQuantity: 0,
-  addItem: (item, quantity, selectedOptions) => {},
-  updateItemQuantity: (itemId, quantity, selectedOptions) => {},
-  removeItem: (itemId, selectedOptions) => {},
+  addItem: () => {},
+  updateItemQuantity: () => {},
+  removeItem: () => {},
 });
 
 // Custom hook to use the CartContext
-export const useCart = () => {
+export const useCart = (): CartContextType => {
   return useContext(CartContext);
 };
 
+// Define the CartProvider component props
+interface CartProviderProps {
+  children: ReactNode;
+}
+
 // Define the CartProvider component
-export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
-  const [total, setTotal] = useState(0);
+export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+  const [items, setItems] = useState<CartItemType[]>([]);
+  const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
     // Load cart from AsyncStorage when the component mounts
@@ -59,11 +84,15 @@ export const CartProvider = ({ children }) => {
   };
 
   // Function to add an item to the cart
-  const addItem = (item, quantity, selectedOptions) => {
+  const addItem = (
+    item: MenuItemType,
+    quantity: number,
+    selectedOptions: SelectedOptions
+  ) => {
     // Calculate the additional options cost
     const additionalCost = selectedOptions.additional.reduce(
       (total, option) => {
-        const optionDetail = item.options.additionalIngredients.find(
+        const optionDetail = item.options?.additionalIngredients?.find(
           (ingredient) => ingredient.name === option
         );
         return total + (optionDetail ? optionDetail.price : 0);
@@ -90,7 +119,7 @@ export const CartProvider = ({ children }) => {
       );
     } else {
       // If not, add it to the cart with options and the updated price
-      const newItem = {
+      const newItem: CartItemType = {
         ...item,
         quantity,
         selectedOptions,
@@ -101,7 +130,11 @@ export const CartProvider = ({ children }) => {
   };
 
   // Function to update the item quantity in the cart
-  const updateItemQuantity = (itemId, newQuantity, selectedOptions) => {
+  const updateItemQuantity = (
+    itemId: number,
+    newQuantity: number,
+    selectedOptions: SelectedOptions
+  ) => {
     setItems((currentItems) =>
       currentItems.map((item) =>
         item.id === itemId &&
@@ -113,7 +146,7 @@ export const CartProvider = ({ children }) => {
   };
 
   // Function to remove an item from the cart, checking for options as well
-  const removeItem = (itemId, selectedOptions) => {
+  const removeItem = (itemId: number, selectedOptions: SelectedOptions) => {
     setItems((currentItems) =>
       currentItems.filter(
         (item) =>
@@ -138,7 +171,7 @@ export const CartProvider = ({ children }) => {
   }, [items]);
 
   // Value to be provided to context consumers
-  const value = {
+  const value: CartContextType = {
     items,
     total,
     addItem,

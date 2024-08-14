@@ -1,26 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { useCart } from '../contexts/CartContext';
+import { MenuItemType } from '../types/menuItemTypes';
 
-export const MenuItem = ({ item, navigation }) => {
-  const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCart();
+interface MenuItemProps {
+  item: MenuItemType;
+  navigation: any;
+}
 
-  const increaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
-    }
-  };
-
-  const handleAddToCart = () => {
-    addItem(item, quantity);
-    setQuantity(1); // Reset quantity after adding to cart
-  };
-
+export const MenuItem = ({ item, navigation }: MenuItemProps) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('MenuItemDetails', { item })}
