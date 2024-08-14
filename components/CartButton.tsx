@@ -3,7 +3,11 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import BagIcon from '../assets/BagIcon';
 import { useCart } from '../contexts/CartContext';
 
-const CartButton = ({ onPress }) => {
+interface CartButtonProps {
+  onPress: () => void;
+}
+
+const CartButton = ({ onPress }: CartButtonProps) => {
   const { totalItemQuantity: amount } = useCart();
 
   return (

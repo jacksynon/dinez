@@ -2,11 +2,17 @@ import React from 'react';
 import { View, FlatList, Button, Text } from 'react-native';
 import { useCart } from '../contexts/CartContext';
 import { CartItem } from '../components/CartItem';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../types';
 
-export function CartScreen({ navigation }) {
+interface CartScreenProps {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Cart'>;
+}
+
+export function CartScreen({ navigation }: CartScreenProps) {
   const { items, total, removeItem, updateItemQuantity } = useCart();
 
-  console.log(items);
+  //console.log(items);
 
   return (
     <View>

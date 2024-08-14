@@ -10,10 +10,16 @@ import {
   Text,
 } from 'react-native';
 import { MenuItem } from '../components/MenuItem';
-import type { MenuItemType } from '../interfaces';
+import type { MenuItemType } from '../types/menuItemTypes';
 import { useCart } from '../contexts/CartContext';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../types';
 
-export function MenuScreen({ navigation }) {
+interface MenuScreenProps {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Menu'>;
+}
+
+export function MenuScreen({ navigation }: MenuScreenProps) {
   const [menuItems, setMenuItems] = useState([] as MenuItemType[]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -52,13 +58,6 @@ export function MenuScreen({ navigation }) {
           description: 'Spaghetti with tomato sauce and meatballs',
           image:
             'https://hips.hearstapps.com/del.h-cdn.co/assets/17/39/2048x1152/hd-aspect-1506456062-delish-spaghetti-meatballs.jpg?resize=600:*',
-          options: {
-            removableIngredients: ['meatballs'],
-            additionalIngredients: [
-              { name: 'extra sauce', price: 0.5 },
-              { name: 'parmesan cheese', price: 1 },
-            ],
-          },
         },
         {
           id: 3,

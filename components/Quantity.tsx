@@ -1,7 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Quantity = ({ quantity, increaseQuantity, decreaseQuantity }) => {
+interface QuantityProps {
+  quantity: number;
+  increaseQuantity: () => void;
+  decreaseQuantity: () => void;
+}
+
+const Quantity = ({
+  quantity,
+  increaseQuantity,
+  decreaseQuantity,
+}: QuantityProps) => {
   return (
     <View style={styles.quantityContainer}>
       <TouchableOpacity
