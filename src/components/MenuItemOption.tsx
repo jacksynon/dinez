@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import React, { useState } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 interface MenuItemOptionProps {
   ingredient: { name: string; price: number };
-  toggleOption: (type: 'removable' | 'additional', option: string) => void;
+  toggleOption: (type: "removable" | "additional", option: string) => void;
 }
 
 const MenuItemOption = ({ ingredient, toggleOption }: MenuItemOptionProps) => {
   const [checkboxState, setCheckboxState] = useState(false);
 
   const handlePress = () => {
-    toggleOption('additional', ingredient.name);
+    toggleOption("additional", ingredient.name);
     setCheckboxState((prevState) => !prevState);
   };
 
@@ -36,7 +36,7 @@ const MenuItemOption = ({ ingredient, toggleOption }: MenuItemOptionProps) => {
           fillColor="#FF9F0D"
           iconStyle={{
             borderRadius: 0,
-            borderColor: '#FF9F0D',
+            borderColor: "#FF9F0D",
             borderWidth: 1.5,
           }}
           isChecked={checkboxState}
@@ -52,21 +52,21 @@ const MenuItemOption = ({ ingredient, toggleOption }: MenuItemOptionProps) => {
 
 const styles = StyleSheet.create({
   optionContainer: {
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: "#f2f2f2",
     borderBottomWidth: 1,
     padding: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginVertical: 4,
   },
   optionText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   optionPrice: {
     fontSize: 12,
-    color: '#3d3d3d',
+    color: "#3d3d3d",
   },
 });
 

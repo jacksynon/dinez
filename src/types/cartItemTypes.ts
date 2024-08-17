@@ -1,4 +1,4 @@
-import { MenuItemType } from './menuItemTypes';
+import type { MenuItemType } from "./menuItemTypes";
 
 export type SelectedOptions = {
   removable: string[];
