@@ -5,10 +5,10 @@ import React, {
   useEffect,
   useMemo,
   ReactNode,
-} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CartItemType, SelectedOptions } from '../types/cartItemTypes';
-import { MenuItemType } from '../types/menuItemTypes';
+} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CartItemType, SelectedOptions } from "../types/cartItemTypes";
+import { MenuItemType } from "../types/menuItemTypes";
 
 type CartContextType = {
   items: CartItemType[];
@@ -20,11 +20,11 @@ type CartContextType = {
     selectedOptions: SelectedOptions
   ) => void;
   updateItemQuantity: (
-    itemId: number,
+    itemId: string,
     quantity: number,
     selectedOptions: SelectedOptions
   ) => void;
-  removeItem: (itemId: number, selectedOptions: SelectedOptions) => void;
+  removeItem: (itemId: string, selectedOptions: SelectedOptions) => void;
 };
 
 // Create a context for the cart
@@ -66,20 +66,20 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const loadCart = async () => {
     try {
-      const savedCart = await AsyncStorage.getItem('cart');
+      const savedCart = await AsyncStorage.getItem("cart");
       if (savedCart) {
         setItems(JSON.parse(savedCart));
       }
     } catch (error) {
-      console.error('Failed to load cart:', error);
+      console.error("Failed to load cart:", error);
     }
   };
 
   const saveCart = async () => {
     try {
-      await AsyncStorage.setItem('cart', JSON.stringify(items));
+      await AsyncStorage.setItem("cart", JSON.stringify(items));
     } catch (error) {
-      console.error('Failed to save cart:', error);
+      console.error("Failed to save cart:", error);
     }
   };
 
@@ -131,7 +131,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Function to update the item quantity in the cart
   const updateItemQuantity = (
-    itemId: number,
+    itemId: string,
     newQuantity: number,
     selectedOptions: SelectedOptions
   ) => {
@@ -146,7 +146,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   // Function to remove an item from the cart, checking for options as well
-  const removeItem = (itemId: number, selectedOptions: SelectedOptions) => {
+  const removeItem = (itemId: string, selectedOptions: SelectedOptions) => {
     setItems((currentItems) =>
       currentItems.filter(
         (item) =>

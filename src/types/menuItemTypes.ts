@@ -1,9 +1,9 @@
 export interface MenuItemType {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description: string;
-  image: string;
+  image?: string;
   options?: {
     removableIngredients?: string[];
     additionalIngredients?: {

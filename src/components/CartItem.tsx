@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { CartItemType } from '../types/cartItemTypes';
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { CartItemType } from "../types/cartItemTypes";
 
 interface CartItemProps {
   item: CartItemType;
@@ -76,11 +76,11 @@ export const CartItem = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    alignItems: 'center',
+    borderBottomColor: "#ccc",
+    alignItems: "center",
   },
   image: {
     width: 60,
@@ -93,41 +93,41 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   price: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
   },
   quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 5,
   },
   quantityButton: {
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     padding: 5,
     borderRadius: 5,
   },
   quantityButtonText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   quantity: {
     marginHorizontal: 10,
     fontSize: 16,
   },
   removeButton: {
-    backgroundColor: '#ff6b6b',
+    backgroundColor: "#ff6b6b",
     padding: 5,
     borderRadius: 5,
   },
   removeButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   option: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
   },
 });
