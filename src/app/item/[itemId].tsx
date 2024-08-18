@@ -83,78 +83,84 @@ export default function ItemDetails() {
         <Text>Loading...</Text>
       </View>
     ) : (
-      <ScrollView>
-        {/* Item Image */}
-        {item.image && (
-          <Image source={{ uri: item.image }} style={styles.image} />
-        )}
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.closeButton}
-        >
-          <CloseIcon />
-        </TouchableOpacity>
+      <>
+        <ScrollView>
+          {/* Item Image */}
+          {item.image && (
+            <Image source={{ uri: item.image }} style={styles.image} />
+          )}
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.closeButton}
+          >
+            <CloseIcon />
+          </TouchableOpacity>
 
-        {/* Item Details */}
-        <View style={styles.section}>
-          <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.price}>${item.price.toFixed(2)}</Text>
-          <Text style={styles.description}>{item.description}</Text>
-        </View>
-
-        {/* Options Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Additions:</Text>
-          {/* Additional Ingredients */}
-          {item.options?.additionalIngredients &&
-            item.options.additionalIngredients.map((ingredient) => (
-              <MenuItemOption
-                key={ingredient.name}
-                ingredient={ingredient}
-                toggleOption={toggleOption}
-              />
-            ))}
-        </View>
-
-        {item.options?.removableIngredients && (
+          {/* Item Details */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Remove:</Text>
-            {item.options.removableIngredients.map((ingredient) => (
-              <Pressable
-                key={ingredient}
-                style={styles.optionContainer}
-                onPress={() => toggleOption("removable", ingredient)}
-              >
-                <Text style={styles.optionText}>No {ingredient}</Text>
-                <BouncyCheckbox
-                  disableText
-                  size={20}
-                  fillColor="#FF9F0D"
-                  iconStyle={{
-                    borderRadius: 0,
-                    borderColor: "#FF9F0D",
-                    borderWidth: 1.5,
-                  }}
-                  isChecked={selectedOptions.removable.includes(ingredient)}
-                  innerIconStyle={{
-                    borderRadius: 0, // to make it a little round increase the value accordingly
-                  }}
-                  onPress={() => toggleOption("removable", ingredient)}
-                />
-              </Pressable>
-            ))}
+            <Text style={styles.title}>{item.name}</Text>
+            <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+            <Text style={styles.description}>{item.description}</Text>
           </View>
-        )}
 
-        {/* Quantity Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Quantity:</Text>
-          <Quantity
-            quantity={quantity}
-            increaseQuantity={increaseQuantity}
-            decreaseQuantity={decreaseQuantity}
-          />
+          {/* Options Section */}
+          {/* Additional Ingredients */}
+          {item.options?.additionalIngredients && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Additions:</Text>
+              {item.options.additionalIngredients.map((ingredient) => (
+                <MenuItemOption
+                  key={ingredient.name}
+                  ingredient={ingredient}
+                  toggleOption={toggleOption}
+                />
+              ))}
+            </View>
+          )}
 
+          {item.options?.removableIngredients && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Remove:</Text>
+              {item.options.removableIngredients.map((ingredient) => (
+                <Pressable
+                  key={ingredient}
+                  style={styles.optionContainer}
+                  onPress={() => toggleOption("removable", ingredient)}
+                >
+                  <Text style={styles.optionText}>No {ingredient}</Text>
+                  <BouncyCheckbox
+                    disableText
+                    size={20}
+                    fillColor="#FF9F0D"
+                    iconStyle={{
+                      borderRadius: 0,
+                      borderColor: "#FF9F0D",
+                      borderWidth: 1.5,
+                    }}
+                    isChecked={selectedOptions.removable.includes(ingredient)}
+                    innerIconStyle={{
+                      borderRadius: 0, // to make it a little round increase the value accordingly
+                    }}
+                    onPress={() => toggleOption("removable", ingredient)}
+                  />
+                </Pressable>
+              ))}
+            </View>
+          )}
+
+          {/* Quantity Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Quantity:</Text>
+            <Quantity
+              quantity={quantity}
+              increaseQuantity={increaseQuantity}
+              decreaseQuantity={decreaseQuantity}
+            />
+          </View>
+        </ScrollView>
+
+        {/* Add to Cart Button */}
+        <View style={styles.addToCartContainer}>
           <TouchableOpacity
             style={styles.addToCartButton}
             onPress={() => {
@@ -167,7 +173,7 @@ export default function ItemDetails() {
             </Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </>
     )
   );
 }
@@ -234,6 +240,11 @@ const styles = StyleSheet.create({
   optionPrice: {
     fontSize: 14,
     color: "gray",
+  },
+  addToCartContainer: {
+    borderTopColor: "#dfdfdf",
+    borderTopWidth: 2,
+    paddingBottom: 24,
   },
   addToCartButton: {
     backgroundColor: "#FF9F0D",
