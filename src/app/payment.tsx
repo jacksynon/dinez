@@ -1,6 +1,8 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React from "react";
+import { Text } from "react-native";
 
-export const PaymentScreen = () => {
+const PaymentScreen = () => {
   return <Text>Payment Screen</Text>;
 };
+
+export default PaymentScreen;

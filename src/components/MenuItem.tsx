@@ -12,10 +12,9 @@ import { Link } from "expo-router";
 
 interface MenuItemProps {
   item: MenuItemType;
-  navigation: any;
 }
 
-export const MenuItem = ({ item, navigation }: MenuItemProps) => {
+export const MenuItem = ({ item }: MenuItemProps) => {
   return (
     <Link href={"/item/" + item.id}>
       <View style={styles.container}>

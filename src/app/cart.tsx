@@ -2,10 +2,12 @@ import React from "react";
 import { View, FlatList, Button, Text } from "react-native";
 import { useCart } from "@/contexts/CartContext";
 import { CartItem } from "@/components/CartItem";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function Cart() {
   const { items, total, removeItem, updateItemQuantity } = useCart();
+
+  const router = useRouter();
 
   return (
     <View>
@@ -28,11 +30,11 @@ export default function Cart() {
         }
       />
       <Text>Total: ${total.toFixed(2)}</Text>
-      {/* <Button
+      <Button
         title="Proceed to Payment"
-        onPress={() => navigation.navigate("index", { screen: "index" })}
+        onPress={() => router.navigate("payment")}
       />
-      <Button title="Back to Menu" onPress={() => useNavigation("index")} /> */}
+      <Button title="Back to Menu" onPress={() => router.dismiss()} />
     </View>
   );
 }

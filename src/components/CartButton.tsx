@@ -1,26 +1,20 @@
 import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet } from "react-native";
 import BagIcon from "@/icons/BagIcon";
 import { useCart } from "../contexts/CartContext";
 
-interface CartButtonProps {
-  onPress: () => void;
-}
-
-const CartButton = ({ onPress }: CartButtonProps) => {
+const CartButton = () => {
   const { totalItemQuantity: amount } = useCart();
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.icon}>
-        <BagIcon />
-        {amount > 0 && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{amount > 9 ? "9+" : amount}</Text>
-          </View>
-        )}
-      </View>
-    </TouchableOpacity>
+    <View style={styles.icon}>
+      <BagIcon />
+      {amount > 0 && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{amount > 9 ? "9+" : amount}</Text>
+        </View>
+      )}
+    </View>
   );
 };
 
