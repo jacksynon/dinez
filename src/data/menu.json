@@ -99,5 +99,33 @@
         }
       ]
     }
+  },
+  {
+    "id": "6",
+    "name": "Parma and Chips",
+    "price": 15,
+    "description": "Pan cooked schnitzel topped with ham, napoli sauce and melted cheese served with chips",
+    "image": "https://1.bp.blogspot.com/-Ndz23R5uXIw/V4EgF00eiTI/AAAAAAAACvA/lmAqlrjuvIYBhhNsyb9A05XsvOq1fxnegCLcB/s1600/chicken%2Bparmigiana.jpg",
+    "options": {
+      "requiredOptions": [
+        {
+          "name": "Schnitzel Type",
+          "options": [
+            {
+              "name": "Chicken Schnitzel",
+              "price": 5.8
+            },
+            {
+              "name": "Veal Schnitzel",
+              "price": 6.8
+            },
+            {
+              "name": "Pork Schnitzel",
+              "price": 7.8
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

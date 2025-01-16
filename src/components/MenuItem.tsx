@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: "#EAEAEA",
     width: "100%",
   },
   image: {
@@ -46,18 +46,24 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
+    justifyContent: "center",
   },
   name: {
-    fontSize: 16,
+    marginBottom: 1,
+    fontFamily: "Urbanist-SemiBold",
+    fontSize: 18,
     fontWeight: "bold",
   },
   description: {
-    fontSize: 12,
+    fontFamily: "Urbanist-Regular",
+    fontSize: 14,
     color: "#666",
     marginBottom: 10,
   },
   price: {
-    fontSize: 14,
+    marginBottom: 2,
+    fontFamily: "Urbanist-Regular",
+    fontSize: 16,
   },
   quantityContainer: {
     flexDirection: "row",

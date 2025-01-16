@@ -104,6 +104,55 @@ export default function ItemDetails() {
           </View>
 
           {/* Options Section */}
+          {/* Required Options */}
+          {item.options?.requiredOptions && (
+            <View style={styles.section}>
+              {item.options.requiredOptions.map((option) => (
+                <View key={option.name}>
+                  <View style={styles.titleContainer}>
+                    <Text style={styles.optionTitle}>{option.name}:</Text>
+                    <View style={styles.requiredContainer}>
+                      <Text style={styles.requiredText}>Required</Text>
+                    </View>
+                  </View>
+                  {option.options.map((subOption) => (
+                    <Pressable
+                      key={subOption.name}
+                      style={styles.optionContainer}
+                      onPress={() => toggleOption("additional", subOption.name)}
+                    >
+                      <View>
+                        <Text style={styles.optionText}>{subOption.name}</Text>
+                        <Text style={styles.optionPrice}>
+                          +${subOption.price.toFixed(2)}
+                        </Text>
+                      </View>
+                      <BouncyCheckbox
+                        disableText
+                        size={20}
+                        fillColor="#FF9F0D"
+                        iconStyle={{
+                          borderRadius: 0,
+                          borderColor: "#FF9F0D",
+                          borderWidth: 1.5,
+                        }}
+                        isChecked={selectedOptions.additional.includes(
+                          subOption.name
+                        )}
+                        innerIconStyle={{
+                          borderRadius: 0, // to make it a little round increase the value accordingly
+                        }}
+                        onPress={() =>
+                          toggleOption("additional", subOption.name)
+                        }
+                      />
+                    </Pressable>
+                  ))}
+                </View>
+              ))}
+            </View>
+          )}
+
           {/* Additional Ingredients */}
           {item.options?.additionalIngredients && (
             <View style={styles.section}>
@@ -118,6 +167,7 @@ export default function ItemDetails() {
             </View>
           )}
 
+          {/* Removable Ingredients */}
           {item.options?.removableIngredients && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Remove:</Text>
@@ -196,15 +246,18 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   title: {
+    fontFamily: "Urbanist-Bold",
     fontSize: 24,
     fontWeight: "bold",
   },
   description: {
+    fontFamily: "Urbanist-Regular",
     fontSize: 16,
     marginTop: 10,
     color: "gray",
   },
   price: {
+    fontFamily: "Urbanist-Bold",
     fontSize: 16,
     fontWeight: "500",
     marginTop: 3,
@@ -219,26 +272,45 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  optionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 8,
-  },
-  optionContainer: {
-    borderBottomColor: "#f2f2f2",
-    borderBottomWidth: 1,
-    padding: 8,
+  titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 4,
+    marginBottom: 8,
+  },
+  requiredContainer: {
+    backgroundColor: "#D4D4D4",
+    borderRadius: 5,
+  },
+  requiredText: {
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    fontSize: 14,
+    color: "#3d3d3d",
+    fontFamily: "Urbanist-SemiBold",
+  },
+  optionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    fontFamily: "Urbanist-Bold",
+  },
+  optionContainer: {
+    borderBottomColor: "#EAEAEA",
+    borderBottomWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   optionText: {
     fontSize: 14,
-    fontWeight: "500",
+    fontFamily: "Urbanist-SemiBold",
+    marginBottom: 2,
   },
   optionPrice: {
-    fontSize: 14,
+    fontSize: 12,
+    fontFamily: "Urbanist-Regular",
     color: "gray",
   },
   addToCartContainer: {
@@ -256,8 +328,8 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   addToCartText: {
+    fontFamily: "Urbanist-Bold",
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
   },
 });
