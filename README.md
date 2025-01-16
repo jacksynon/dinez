@@ -4,6 +4,12 @@
 
 DinEz is a personal project providing a seamless, interactive self-ordering system for restaurants. This React Native app, built using Expo, allows customers to browse menus, place orders, and pay directly from their smartphones or tablets, enhancing both user convenience and restaurant efficiency.
 
+<div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+  <img src="assets/screenshot1.png" alt="Screenshot 1" width="200">
+  <img src="assets/screenshot2.png" alt="Screenshot 2" width="200">
+  <img src="assets/screenshot3.png" alt="Screenshot 3" width="200">
+</div>
+
 ## Planned Features
 
 ### 1. User-Friendly Interface
